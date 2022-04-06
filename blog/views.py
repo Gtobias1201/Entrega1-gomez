@@ -1,11 +1,13 @@
-from django.shortcuts import render,get_object_or_404
-from .models import post
+from django.shortcuts import render, get_object_or_404
+from .models import Post
 
-def render_posts(request):
-    posts = post.objects.all()
-    return render(request,'post.html',{'posts':posts})
+
+def renderPosts(request):
+    total_posts = Post.objects.count()
+    posts = Post.objects.order_by("-date")
+    return render(request, "blog.html", {"posts": posts, "total_posts": total_posts})
+
 
 def post_detail(request, post_id):
-    Post = get_object_or_404(post,pk=post_id)
-    return render(request,'post_details.html',{"post":Post})
-
+    post = get_object_or_404(Post, pk=post_id)
+    return render(request, "post_detail.html", {"post": post})
